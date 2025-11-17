@@ -37,7 +37,7 @@ O projeto foi desenvolvido como solução prática do desafio de projeto da DIO/
 
 - Criar uma **API REST** com Spring Boot e Kotlin
 - Aplicar conceitos de:
-  - Arquitetura em **3 camadas** (controller → service → repository)
+  - Arquitetura em **camadas** 
   - **JPA/Hibernate** + banco de dados H2
   - **Bean Validation** (validações de entrada)
   - **DTOs** (Data Transfer Objects)
@@ -64,17 +64,93 @@ A API trabalha com dois agregados principais:
 
 ## 🏛️ Arquitetura
 
-O projeto segue uma **arquitetura em 3 camadas**:
+## 🏛 Arquitetura da Aplicação
 
-- **Controller**: recebe as requisições HTTP e devolve as respostas (camada de interface com o cliente)
-- **Service**: contém as **regras de negócio** e orquestra chamadas ao repositório
-- **Repository**: abstrai o acesso à base de dados (Spring Data JPA)
+A estrutura do projeto segue uma arquitetura organizada em camadas, utilizando os seguintes pacotes:
 
-Também são utilizados:
+---
 
-- **DTOs** para entrada/saída de dados
-- **Entities** para mapeamento JPA
-- **Exception handlers** globais para padronizar erros
+### 📁 `configuration`
+Contém configurações da aplicação, como configurações de beans, Swagger/OpenAPI ou integrações específicas do projeto.
+
+---
+
+### 📁 `controller`
+Implementa a camada **de apresentação** (API REST).  
+Responsável por receber as requisições HTTP e retornar as respostas adequadas.
+
+Principais responsabilidades:
+- Expor endpoints
+- Validar entradas via DTOs
+- Delegar operações aos serviços
+
+---
+
+### 📁 `dto`
+Contém os **Data Transfer Objects**, responsáveis por transportar dados entre client → controller → service.
+
+Subpastas:
+- `request` – Dados recebidos pela API
+- `response` – Dados devolvidos pela API
+
+---
+
+### 📁 `entity`
+Contém as **entidades JPA**, representando as tabelas do banco de dados.  
+São modelos persistentes que representam o domínio da aplicação.
+
+---
+
+### 📁 `enummeration`
+Contém enums utilizados pelo domínio, como status de crédito ou outros tipos de valores categóricos.
+
+---
+
+### 📁 `exception`
+Agrupa o tratamento global de exceções da aplicação.
+
+Inclui:
+- Exceções personalizadas
+- Representações estruturadas de erro
+- Handler global (`RestExceptionHandler`) para padronizar respostas de erro
+
+---
+
+### 📁 `repository`
+Implementa a camada **de acesso aos dados**.  
+Contém interfaces que estendem Spring Data JPA e fazem a ponte entre as entidades e o banco.
+
+Responsabilidades:
+- Buscar, salvar, atualizar e remover entidades
+- Consultas específicas via métodos derivados ou queries anotadas
+
+---
+
+### 📁 `service`
+Representa a camada **de negócio**.  
+Aqui estão as regras de negócio e lógica central do sistema.
+
+Estrutura típica:
+- Interfaces (contratos)
+- Implementações (`impl/`) contendo as regras de negócio de fato
+
+Responsabilidades:
+- Validar dados antes de persistir
+- Processar regras (ex.: limite de parcelas, data da primeira parcela)
+- Integrar controller ↔ repository
+
+---
+
+## ✔ Resumo
+O projeto segue uma arquitetura limpa, modular e de fácil manutenção, aplicando boas práticas comuns em aplicações Spring Boot:
+
+- **Controller**: interface com o cliente  
+- **Service**: lógica de negócio  
+- **Repository**: persistência de dados  
+- **Entity** + **Enummeration**: modelo de domínio  
+- **DTO**: transporte de dados  
+- **Exception**: tratamento global de erros  
+- **Configuration**: configurações da aplicação  
 
 ---
 
@@ -227,6 +303,65 @@ cd dio-desafio-de-projeto-bootcamp-tqi-modulo8-documentando-api
 - Valores como income e creditValue não podem ser negativos  
 - numberOfInstallments deve respeitar as regras  
 - Crédito deve estar associado a um cliente existente  
+
+---
+
+## 🧪 Testes
+
+A aplicação inclui testes automatizados para garantir a qualidade, estabilidade e corretude do comportamento das principais funcionalidades.
+
+Os testes estão organizados no diretório:
+
+src/test/kotlin/me.dio.credit.application.system
+
+### 📄 Teste existente
+
+- `CreditApplicationSystemApplicationTests.kt`  
+  - Utiliza a anotação `@SpringBootTest`
+  - Executa o método `contextLoads()`
+  - Responsável por validar se o *Application Context* do Spring Boot sobe com sucesso
+
+Isso garante que:
+- A aplicação está bem configurada
+- Todas as dependências principais carregam normalmente
+- Não há falhas de configuração no projeto
+
+---
+
+
+### 📁 Estrutura de Testes
+
+- **controller**
+  - Testes dos endpoints expostos pela API REST
+  - Verificam:
+    - Códigos de status
+    - Corpo das respostas
+    - Validações de entrada
+    - Comportamento das rotas sob diferentes cenários
+
+- **service**
+  - Testes da camada de negócio
+  - Validam:
+    - Regras de negócio (parcelas, datas, CPF, etc.)
+    - Interações com repositórios (mockados)
+    - Cenários de sucesso e falha
+
+- **repository**
+  - Testes de integração com o banco H2
+  - Garantem que:
+    - As entidades estão mapeadas corretamente
+    - Queries funcionam como esperado
+
+---
+
+### ▶️ Como executar os testes
+
+Use o Gradle wrapper:
+
+```bash
+./gradlew test
+```
+
 
 ---
 
