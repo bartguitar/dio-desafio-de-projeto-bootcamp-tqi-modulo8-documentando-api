@@ -1,65 +1,245 @@
-<h1>request-credit-system</h1>
-<p align="center">API Rest para um Sistema de Analise de Solicitação de Crédito</p>
+<h1 align="center">API de Avaliação de Crédito 💳</h1>
+
 <p align="center">
-     <a alt="Java">
-        <img src="https://img.shields.io/badge/Java-v17-blue.svg" />
-    </a>
-    <a alt="Kotlin">
-        <img src="https://img.shields.io/badge/Kotlin-v1.7.22-purple.svg" />
-    </a>
-    <a alt="Spring Boot">
-        <img src="https://img.shields.io/badge/Spring%20Boot-v3.0.3-brightgreen.svg" />
-    </a>
-    <a alt="Gradle">
-        <img src="https://img.shields.io/badge/Gradle-v7.6-lightgreen.svg" />
-    </a>
-    <a alt="H2 ">
-        <img src="https://img.shields.io/badge/H2-v2.1.214-darkblue.svg" />
-    </a>
-    <a alt="Flyway">
-        <img src="https://img.shields.io/badge/Flyway-v9.5.1-red.svg">
-    </a>
+  <strong>Bootcamp TQI / DIO – Documentando uma API REST com Spring Boot e Kotlin</strong>
 </p>
 
-<h3>Descrição do Projeto</h3>
-<p><a href="https://gist.github.com/cami-la/560b455b901778391abd2c9edea81286">https://gist.github.com/cami-la/560b455b901778391abd2c9edea81286</a></p>
-<figure>
 <p align="center">
-  <img src="https://i.imgur.com/7phya16.png" height="350" width="450" alt="API para Sistema de Avaliação de Créditos"/><br>
-  Diagrama UML Simplificado de uma API para Sistema de Avaliação de Crédito
+  <a href="https://kotlinlang.org/">
+    <img src="https://img.shields.io/badge/Kotlin-1.x-7F52FF?logo=kotlin&logoColor=white" alt="Kotlin">
+  </a>
+  <a href="https://spring.io/projects/spring-boot">
+    <img src="https://img.shields.io/badge/Spring%20Boot-3.x-6DB33F?logo=springboot&logoColor=white" alt="Spring Boot">
+  </a>
+  <a href="https://gradle.org/">
+    <img src="https://img.shields.io/badge/Gradle-7+-02303A?logo=gradle&logoColor=white" alt="Gradle">
+  </a>
+  <img src="https://img.shields.io/badge/Status-Em%20desenvolvimento-yellow" alt="Status">
 </p>
-</figure>
 
-<h3>Instrução de Uso</h3>
-<p>No Terminal/Console:</p>
-<ol>
-	<li>Faça um clone do projeto na sua máquina: <code>git clone git@github.com:cami-la/credit-application-system.git</code></li>
-	<li>Entre na pasta raiz do projeto: <code>cd </code></li> 
-	<li>Execute o comando: <code>./gradlew bootrun</code></li>
-</ol>
-<h6>** Visando facilitar a demostração da aplicação, recomendo instalar apenas o IntelliJ IDEA e executar o projeto através da IDE **</h6>
+---
 
-<h3>Autor</h3>
+## 📌 Sobre o projeto
 
-<a href="https://www.linkedin.com/in/cami-la/">
- <img style="border-radius: 50%;" src="https://avatars.githubusercontent.com/u/64323124?v=4" width="100px;" alt=""/>
- <br />
- <sub><b>Camila Cavalcante</b></sub></a> <a href="https://www.instagram.com/camimi_la/" title="Instagram"></a>
+Este repositório contém a implementação de uma **API REST para análise de solicitações de crédito**, desenvolvida em **Kotlin** com **Spring Boot**.
 
-Feito com ❤️ por Cami-la 👋🏽 Entre em contato!
+O sistema simula o fluxo de uma empresa de empréstimos, permitindo:
 
-[![Linkedin Badge](https://img.shields.io/badge/-Camila-blue?style=flat-square&logo=Linkedin&logoColor=white&link=https://www.linkedin.com/in/cami-la/)](https://www.linkedin.com/in/cami-la/)
-[![Gmail Badge](https://img.shields.io/badge/-camiladsantoscavalcante@gmail.com-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:camiladsantoscavalcante@gmail.com)](mailto:camiladsantoscavalcante@gmail.com)
-<hr>
-<h3>Contribuindo</h3>
+- Cadastro e gestão de **clientes** (Customer)
+- Registro e consulta de **solicitações de crédito** (Credit)
+- Aplicação de **regras de negócio** para aprovação da proposta
 
-Este repositório foi criado para fins de estudo, então contribua com ele.<br>
-Se te ajudei de alguma forma, ficarei feliz em saber. Caso você conheça alguém que se identifique com o conteúdo, não
-deixe de compatilhar.
+O projeto foi desenvolvido como solução prática do desafio de projeto da DIO/TQI: **“API para Sistema de Avaliação de Créditos”**. :contentReference[oaicite:1]{index=1}  
 
-Se possível:
+---
 
-⭐️ Star o projeto
+## 🎯 Objetivos de aprendizado
 
-🐛 Encontrar e relatar issues
+- Criar uma **API REST** com Spring Boot e Kotlin
+- Aplicar conceitos de:
+  - Arquitetura em **3 camadas** (controller → service → repository)
+  - **JPA/Hibernate** + banco de dados H2
+  - **Bean Validation** (validações de entrada)
+  - **DTOs** (Data Transfer Objects)
+  - **Tratamento de exceções** e respostas padronizadas
+- Documentar a API (ex.: Swagger/OpenAPI/Postman)
+
+---
+
+## 🧠 Domínio do problema
+
+A API trabalha com dois agregados principais:
+
+- **Customer (Cliente)**
+  - Cadastro, edição, visualização e exclusão
+  - Campos principais: `firstName`, `lastName`, `cpf`, `income`, `email`, `password`, `zipCode`, `street` :contentReference[oaicite:2]{index=2}  
+
+- **Credit (Solicitação de Empréstimo)**
+  - Registro de uma nova solicitação de crédito
+  - Consulta de todas as solicitações de um cliente
+  - Consulta detalhada de uma solicitação específica
+  - Campos principais: `creditValue`, `dayFirstOfInstallment`, `numberOfInstallments`, `customerId` :contentReference[oaicite:3]{index=3}  
+
+---
+
+## 🏛️ Arquitetura
+
+O projeto segue uma **arquitetura em 3 camadas**:
+
+- **Controller**: recebe as requisições HTTP e devolve as respostas (camada de interface com o cliente)
+- **Service**: contém as **regras de negócio** e orquestra chamadas ao repositório
+- **Repository**: abstrai o acesso à base de dados (Spring Data JPA)
+
+Também são utilizados:
+
+- **DTOs** para entrada/saída de dados
+- **Entities** para mapeamento JPA
+- **Exception handlers** globais para padronizar erros
+
+---
+
+## 🧰 Tecnologias e dependências
+
+- **Linguagem**: Kotlin
+- **Framework**: Spring Boot 3.x
+- **Build**: Gradle
+- **Banco de dados**: H2 (em memória)
+- **ORM**: Spring Data JPA / Hibernate
+- **Migração de banco**: Flyway
+- **Validações**: Bean Validation (Jakarta Validation)
+- **Testes** (opcional, se implementado):
+  - Spring Boot Test
+  - JUnit / MockK
+
+---
+
+## ▶️ Como executar o projeto
+
+### ✅ Pré-requisitos
+
+- Java 17+
+- Git instalado
+- IntelliJ IDEA (recomendado para Kotlin/Spring) ou outra IDE de sua preferência
+
+### 🔽 Clonar o repositório
+
+```bash
+git clone https://github.com/bartguitar/dio-desafio-de-projeto-bootcamp-tqi-modulo8-documentando-api.git
+cd dio-desafio-de-projeto-bootcamp-tqi-modulo8-documentando-api
+```
+# 📌 Endpoints da API
+
+## 👤 Customer Controller  
+**Base URL:** `/api/customers`
+
+---
+
+### ➕ Criar cliente  
+**POST** `/api/customers`
+
+#### Request Body
+- firstName  
+- lastName  
+- cpf  
+- income  
+- email  
+- password  
+- zipCode  
+- street  
+
+#### Response (201 - Created)
+- Mensagem de confirmação de criação do cliente
+
+---
+
+### 👁 Visualizar cliente  
+**GET** `/api/customers/{id}`
+
+#### Response Body
+- Dados completos do cliente consultado
+
+---
+
+### ✏ Atualizar cadastro  
+**PATCH** `/api/customers`
+
+#### Request Body
+- id  
+- firstName  
+- lastName  
+- income  
+- zipCode  
+- street  
+
+#### Response (200 - OK)
+- Mensagem de confirmação da atualização
+
+---
+
+### ❌ Deletar cliente  
+**DELETE** `/api/customers/{id}`
+
+#### Response (204 - No Content)
+- Sem corpo de resposta
+
+---
+
+## 💳 Credit Controller  
+**Base URL:** `/api/credits`
+
+---
+
+### ➕ Registrar solicitação de crédito  
+**POST** `/api/credits`
+
+#### Request Body
+- creditValue  
+- dayFirstOfInstallment  
+- numberOfInstallments  
+- customerId  
+
+#### Response (201 - Created)
+- Mensagem de confirmação do registro do crédito
+
+---
+
+### 📜 Listar créditos por cliente  
+**GET** `/api/credits?customerId={id}`
+
+#### Response Body
+- Lista das solicitações de crédito do cliente  
+- creditCode  
+- creditValue  
+- numberOfInstallment  
+
+---
+
+### 🔍 Detalhar crédito específico  
+**GET** `/api/credits/{creditCode}?customerId={id}`
+
+#### Response Body
+- creditCode  
+- creditValue  
+- numberOfInstallment  
+- status  
+- emailCustomer  
+- incomeCustomer  
+
+---
+
+# ⚠️ Regras de Negócio
+
+## 🔹 Limite de parcelas
+- Máximo permitido: **48 parcelas**
+- Caso ultrapasse: retornar erro **400 Bad Request**
+
+---
+
+## 🔹 Data da primeira parcela
+- Deve ser dentro de **até 3 meses** a partir da data atual
+- Caso ultrapasse: retornar erro **400 Bad Request**
+
+---
+
+# ✔️ Validações Importantes
+- CPF inválido não é aceito  
+- Campos obrigatórios precisam ser preenchidos  
+- Valores como income e creditValue não podem ser negativos  
+- numberOfInstallments deve respeitar as regras  
+- Crédito deve estar associado a um cliente existente  
+
+---
+
+# 🏁 Conclusão
+
+Este projeto demonstra a construção de uma API REST completa utilizando **Kotlin** e **Spring Boot**, seguindo boas práticas de arquitetura, organização de camadas, uso de DTOs, validações e regras de negócio aplicadas ao domínio de análise de crédito.  
+
+Por meio da implementação dos módulos de **Customer** e **Credit**, foi possível consolidar conceitos importantes como persistência com **JPA/Hibernate**, integração com banco de dados **H2**, criação de rotas RESTful bem definidas, tratamento centralizado de erros e uso eficiente do Gradle com Kotlin DSL.  
+
+Além de cumprir os requisitos do desafio, o projeto fornece uma base sólida para futuras evoluções, como autenticação, migração para bancos SQL reais, deploy em containers e integração com serviços externos.  
+
+Este repositório serve como um ótimo ponto de partida para estudos, portfólio profissional e aprofundamento no ecossistema Kotlin + Spring.  
+
+
+
 
